@@ -13,7 +13,7 @@
     "type-extension"
   ],
   "main": "clipboard-input.html",
-  "license": "http://polymer.github.io/LICENSE.txt",
+  "license": "MIT",
   "homepage": "https://github.com/jshcrowthe/clipboard-input/",
   "ignore": [
     "/.*",
