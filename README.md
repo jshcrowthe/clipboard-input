@@ -10,4 +10,4 @@ An element providing a copiable input field for a given value.
 
 Output:
 
-![Rendered Example](img/example.png)
+![Rendered Example](./example.png)
