@@ -1,0 +1,114 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+An element providing a solution to no problem in particular.
+
+Example:
+
+    <input is='clipboard-input'/>
+
+@demo demo/index.html
+@hero hero.svg
+-->
+
+<dom-module id="clipboard-input">
+  <template>
+    <style>
+      * {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        vertical-align: middle;
+      }
+      :host {
+        display: inline-block;
+      }
+      svg[hidden] {
+        display: none;
+      }
+      input {
+        border-bottom-left-radius: 4px;
+        border-right: none !important;
+        border-top-left-radius: 4px;
+        border: 1px solid #D5D5D5;
+        height:28px;
+        line-height: 28px;
+        padding: 1px 5px;
+        width: calc(100% - 35px);
+        float:left;
+      }
+      button {
+        background: #EEEEEE;
+        background-image: -webkit-linear-gradient(#FCFCFC, #EEEEEE);
+        background-image: linear-gradient(#FCFCFC, #EEEEEE);
+        border-bottom-right-radius: 4px;
+        border-top-right-radius: 4px;
+        border: 1px solid #D5D5D5;
+        height: 28px;
+        text-align: center;
+        width: 35px;
+        float:left;
+      }
+      button:hover {
+        background-image: -webkit-linear-gradient(#EEEEEE, #DDDDDD);
+        background-image: linear-gradient(#EEEEEE, #DDDDDD);
+      }
+      button:focus {
+        outline: none;
+        border-color: #3b99fc;
+      }
+      .wrap {
+        position: relative;
+        display: table;
+        border-collapse: collapse;
+        width: 100%;
+        border:none;
+      }
+    </style>
+    <div class='wrap'>
+      <input id='input' on-tap='select' value='[[value]]' readonly></input>
+      <button id='button' on-tap='copy' on-mouseleave='_resetCopy' title='Click to copy text'>
+        <svg hidden$='[[_copied]]' xmlns="http://www.w3.org/2000/svg" version="1.1" width="16" height="16" viewBox="0 0 16 16">
+          <path d="M10 4v-4h-7l-3 3v9h6v4h10v-12h-6zM3 1.4v1.6h-1.6l1.6-1.6zM1 11v-7h3v-3h5v3l-3 3v4h-5zM9 5.4v1.6h-1.6l1.6-1.6zM15 15h-8v-7h3v-3h5v10z"/>
+        </svg>
+        <svg hidden$='[[!_copied]]' xmlns="http://www.w3.org/2000/svg" version="1.1" x="0" y="0" width="16" height="16" viewBox="0.3 0 512 371.3" enable-background="new 0.331 -0.001 511.998 371.291" xml:space="preserve"><path d="M174.7 371.3c-8.6 0-17.2-3.3-23.8-9.9L10.2 220.7c-13.2-13.2-13.2-34.5 0-47.6 13.2-13.2 34.5-13.2 47.6 0l116.9 116.9L454.8 9.9c13.1-13.2 34.5-13.2 47.6 0 13.2 13.2 13.2 34.5 0 47.6L198.5 361.4C192 368 183.3 371.3 174.7 371.3z" fill="#000000"/></svg>
+      </button>
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'clipboard-input',
+      properties: {
+        _copied: {
+          type: Boolean,
+          value: false
+        },
+        value: {
+          type: String,
+          value: ''
+        }
+      },
+      _resetCopy: function() {
+        this._copied = false;
+      },
+      select: function() {
+        this.$.input.select();
+      },
+      copy: function() {
+        this.select();
+        this._copied = document.execCommand('copy');
+        window.getSelection().removeAllRanges();
+      }
+    });
+  </script>
+</dom-module>
