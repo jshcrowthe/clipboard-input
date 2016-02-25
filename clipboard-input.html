@@ -15,7 +15,7 @@ An element providing a solution to no problem in particular.
 
 Example:
 
-    <input is='clipboard-input'/>
+    <clipboard-input></clipboard-input>
 
 @demo demo/index.html
 @hero hero.svg
@@ -76,11 +76,13 @@ Example:
     </style>
     <div class='wrap'>
       <input id='input' on-tap='select' value='[[value]]' readonly></input>
-      <button id='button' on-tap='copy' on-mouseleave='_resetCopy' title='Click to copy text'>
+      <button id='button' on-tap='_copy' on-mouseleave='_resetCopy' title='Click to copy text'>
         <svg hidden$='[[_copied]]' xmlns="http://www.w3.org/2000/svg" version="1.1" width="16" height="16" viewBox="0 0 16 16">
           <path d="M10 4v-4h-7l-3 3v9h6v4h10v-12h-6zM3 1.4v1.6h-1.6l1.6-1.6zM1 11v-7h3v-3h5v3l-3 3v4h-5zM9 5.4v1.6h-1.6l1.6-1.6zM15 15h-8v-7h3v-3h5v10z"/>
         </svg>
-        <svg hidden$='[[!_copied]]' xmlns="http://www.w3.org/2000/svg" version="1.1" x="0" y="0" width="16" height="16" viewBox="0.3 0 512 371.3" enable-background="new 0.331 -0.001 511.998 371.291" xml:space="preserve"><path d="M174.7 371.3c-8.6 0-17.2-3.3-23.8-9.9L10.2 220.7c-13.2-13.2-13.2-34.5 0-47.6 13.2-13.2 34.5-13.2 47.6 0l116.9 116.9L454.8 9.9c13.1-13.2 34.5-13.2 47.6 0 13.2 13.2 13.2 34.5 0 47.6L198.5 361.4C192 368 183.3 371.3 174.7 371.3z" fill="#000000"/></svg>
+        <svg hidden$='[[!_copied]]' xmlns="http://www.w3.org/2000/svg" version="1.1" x="0" y="0" width="16" height="16" viewBox="0.3 0 512 371.3" enable-background="new 0.331 -0.001 511.998 371.291" xml:space="preserve">
+          <path d="M174.7 371.3c-8.6 0-17.2-3.3-23.8-9.9L10.2 220.7c-13.2-13.2-13.2-34.5 0-47.6 13.2-13.2 34.5-13.2 47.6 0l116.9 116.9L454.8 9.9c13.1-13.2 34.5-13.2 47.6 0 13.2 13.2 13.2 34.5 0 47.6L198.5 361.4C192 368 183.3 371.3 174.7 371.3z" fill="#000000"/>
+        </svg>
       </button>
     </div>
   </template>
@@ -89,25 +91,48 @@ Example:
     Polymer({
       is: 'clipboard-input',
       properties: {
+        /**
+         * A Boolean value to bind to for the status of the copy
+         * @type {Boolean}
+         */
         _copied: {
           type: Boolean,
           value: false
         },
+        /**
+         * The value that will be copiable inside the input area
+         * @type {String}
+         */
         value: {
           type: String,
           value: ''
         }
       },
+      /**
+       * Resets the value of _copied to false
+       */
       _resetCopy: function() {
         this._copied = false;
       },
-      select: function() {
-        this.$.input.select();
-      },
-      copy: function() {
+      /**
+       * Copies the text to the users clipboard. Cannot currently
+       * be triggered programatically due to browser restrictions.
+       */
+      _copy: function() {
         this.select();
         this._copied = document.execCommand('copy');
-        window.getSelection().removeAllRanges();
+        if (this._copied) {
+          window.getSelection().removeAllRanges();
+          this.fire('clipboard-input-copy', {
+            value: this.value
+          });
+        }
+      },
+      /**
+       * Selects the text inside of the input
+       */
+      select: function() {
+        this.$.input.select();
       }
     });
   </script>

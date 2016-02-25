@@ -16,10 +16,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
     <link rel="import" href="../clipboard-input.html">
   </head>
-  <body unresolved>
+  <body>
 
-    <p>An example of <code>&lt;clipboard-input&gt;</code>:</p>
+    <template is="dom-bind">
+      <p>An example of <code>&lt;clipboard-input&gt;</code>:</p>
+      <p>
+        <label for="copyVal">Value:</label>
+        <input id='copyVal' type="text" value='{{copyVal::input}}'>
+      </p>
+      <clipboard-input id='el' value='[[copyVal]]'></clipboard-input>
+    </template>
 
-    <clipboard-input value='Copy me!'></clipboard-input>
+    <script>
+      document.querySelector("template[is='dom-bind']").copyVal = 'Default Test Value';
+      document.addEventListener('clipboard-input-copy', function(e) {
+        console.log('Succesfully copied value "' + e.detail.value + '"');
+      });
+    </script>
   </body>
 </html>
