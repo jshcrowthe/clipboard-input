@@ -30,7 +30,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script>
       document.querySelector("template[is='dom-bind']").copyVal = 'Default Test Value';
       document.addEventListener('clipboard-input-copy', function(e) {
-        console.log('Succesfully copied value "' + e.detail.value + '"');
+        alert('Succesfully copied value "' + e.detail.value + '"');
       });
     </script>
   </body>

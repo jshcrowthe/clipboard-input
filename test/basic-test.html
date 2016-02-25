@@ -33,17 +33,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         assert(false);
       };
       suite('<clipboard-input>', function() {
-        setup(function() {
-          document.addEventListener('clipboard-input-copy', fail);
-        });     
-        test('it should NOT a select event when input is triggered programatically', function(done) {
+        test('it should call copy on button click', function() {
           var el = fixture('clipboard-input-fixture');
+          var _copy = sinon.spy( el._copy );
+          el._copy = _copy;
+          
           var button = el.$$('button');
           button.click();
-          setTimeout(done, 50);
+
+          assert(_copy.called);
         });
-        teardown(function() {
-          document.removeEventListener('clipboard-input-copy', fail);
+        test('it should call select on input click', function() {
+          var el = fixture('clipboard-input-fixture');
+          var select = sinon.spy( el.select );
+          el.select = select;
+          
+          var input = el.$$('input');
+          input.click();
+
+          assert(select.called);
         });
       });
     </script>
