@@ -79,7 +79,7 @@ Example:
     </style>
     <div class='wrap'>
       <input id='input' on-tap='select' value='[[value]]' readonly></input>
-      <button id='button' on-tap='_copy' on-mouseleave='_resetCopy' title='Click to copy text'>
+      <button id='button' on-tap='_copy' on-mouseleave='_resetCopy' title='[[titleText]]'>
         <svg hidden$='[[_copied]]' xmlns="http://www.w3.org/2000/svg" version="1.1" width="16" height="16" viewBox="0 0 16 16">
           <path d="M10 4v-4h-7l-3 3v9h6v4h10v-12h-6zM3 1.4v1.6h-1.6l1.6-1.6zM1 11v-7h3v-3h5v3l-3 3v4h-5zM9 5.4v1.6h-1.6l1.6-1.6zM15 15h-8v-7h3v-3h5v10z"/>
         </svg>
@@ -109,6 +109,16 @@ Example:
         value: {
           type: String,
           value: ''
+        },
+
+        /**
+         * The title text that is displayed when a user hovers over
+         * the copy button
+         * @type {Object}
+         */
+        titleText: {
+          type: String,
+          value: 'Click to copy text'
         }
       },
       /**
