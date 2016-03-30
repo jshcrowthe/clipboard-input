@@ -17,6 +17,12 @@ Example:
 
     <clipboard-input></clipboard-input>
 
+### Styling
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--clipboard-input-button` | A mixin that allows a user to customize the copy button | `null`
+
 @demo demo/index.html
 @hero hero.svg
 -->
@@ -66,6 +72,7 @@ Example:
         -webkit-align-self: center;
             -ms-flex-item-align: center;
                 align-self: center;
+        @apply(--clipboard-input-button);
       }
       button:hover {
         background-image: -webkit-linear-gradient(#EEEEEE, #DDDDDD);
