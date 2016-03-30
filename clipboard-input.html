@@ -43,8 +43,7 @@ Example:
         height:28px;
         line-height: 28px;
         padding: 1px 5px;
-        width: calc(100% - 35px);
-        float:left;
+        width:100%;
       }
       button {
         background: #EEEEEE;
@@ -55,8 +54,18 @@ Example:
         border: 1px solid #D5D5D5;
         height: 28px;
         text-align: center;
-        width: 35px;
-        float:left;
+        margin: 0;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+            -ms-flex-pack: center;
+                justify-content: center;
+        -webkit-align-self: center;
+            -ms-flex-item-align: center;
+                align-self: center;
       }
       button:hover {
         background-image: -webkit-linear-gradient(#EEEEEE, #DDDDDD);
@@ -71,7 +80,10 @@ Example:
       }
       .wrap {
         position: relative;
-        display: table;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
         border-collapse: collapse;
         width: 100%;
         border:none;
@@ -79,13 +91,23 @@ Example:
     </style>
     <div class='wrap'>
       <input id='input' on-tap='select' value='[[value]]' readonly></input>
-      <button id='button' on-tap='_copy' on-mouseleave='_resetCopy' title='[[titleText]]'>
-        <svg hidden$='[[_copied]]' xmlns="http://www.w3.org/2000/svg" version="1.1" width="16" height="16" viewBox="0 0 16 16">
-          <path d="M10 4v-4h-7l-3 3v9h6v4h10v-12h-6zM3 1.4v1.6h-1.6l1.6-1.6zM1 11v-7h3v-3h5v3l-3 3v4h-5zM9 5.4v1.6h-1.6l1.6-1.6zM15 15h-8v-7h3v-3h5v10z"/>
-        </svg>
-        <svg hidden$='[[!_copied]]' xmlns="http://www.w3.org/2000/svg" version="1.1" x="0" y="0" width="16" height="16" viewBox="0.3 0 512 371.3" enable-background="new 0.331 -0.001 511.998 371.291" xml:space="preserve">
-          <path d="M174.7 371.3c-8.6 0-17.2-3.3-23.8-9.9L10.2 220.7c-13.2-13.2-13.2-34.5 0-47.6 13.2-13.2 34.5-13.2 47.6 0l116.9 116.9L454.8 9.9c13.1-13.2 34.5-13.2 47.6 0 13.2 13.2 13.2 34.5 0 47.6L198.5 361.4C192 368 183.3 371.3 174.7 371.3z" fill="#000000"/>
-        </svg>
+      <button id='button' on-tap='_copy' on-mouseleave='_resetCopy' title$='[[titleText]]'>
+        <template is='dom-if' if="[[copyText]]">
+          <span hidden$='[[_copied]]'>[[copyText]]</span>
+        </template>
+        <template is='dom-if' if="[[!copyText]]">
+          <svg hidden$='[[_copied]]' xmlns="http://www.w3.org/2000/svg" version="1.1" width="16" height="16" viewBox="0 0 16 16">
+            <path d="M10 4v-4h-7l-3 3v9h6v4h10v-12h-6zM3 1.4v1.6h-1.6l1.6-1.6zM1 11v-7h3v-3h5v3l-3 3v4h-5zM9 5.4v1.6h-1.6l1.6-1.6zM15 15h-8v-7h3v-3h5v10z"/>
+          </svg>
+        </template>
+        <template is='dom-if' if="[[copiedText]]">
+          <span hidden$='[[!_copied]]'>[[copiedText]]</span>
+        </template>
+        <template is='dom-if' if="[[!copiedText]]">
+          <svg hidden$='[[!_copied]]' xmlns="http://www.w3.org/2000/svg" version="1.1" x="0" y="0" width="16" height="16" viewBox="0.3 0 512 371.3" enable-background="new 0.331 -0.001 511.998 371.291" xml:space="preserve">
+            <path d="M174.7 371.3c-8.6 0-17.2-3.3-23.8-9.9L10.2 220.7c-13.2-13.2-13.2-34.5 0-47.6 13.2-13.2 34.5-13.2 47.6 0l116.9 116.9L454.8 9.9c13.1-13.2 34.5-13.2 47.6 0 13.2 13.2 13.2 34.5 0 47.6L198.5 361.4C192 368 183.3 371.3 174.7 371.3z" fill="#000000"/>
+          </svg>
+        </template>
       </button>
     </div>
   </template>
@@ -119,6 +141,14 @@ Example:
         titleText: {
           type: String,
           value: 'Click to copy text'
+        },
+        copyText: {
+          type: String,
+          value: ''
+        },
+        copiedText: {
+          type: String,
+          value: ''
         }
       },
       /**
