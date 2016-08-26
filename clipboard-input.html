@@ -43,7 +43,6 @@ Custom property | Description | Default
       }
       input {
         border-bottom-left-radius: 4px;
-        border-right: none !important;
         border-top-left-radius: 4px;
         border: 1px solid #D5D5D5;
         height:28px;
@@ -51,10 +50,14 @@ Custom property | Description | Default
         padding: 1px 5px;
         width:100%;
       }
+      input[button-hidden] {
+        border-radius: 4px;
+      }
       button {
         background: #EEEEEE;
         background-image: -webkit-linear-gradient(#FCFCFC, #EEEEEE);
         background-image: linear-gradient(#FCFCFC, #EEEEEE);
+        border-left: none !important;
         border-bottom-right-radius: 4px;
         border-top-right-radius: 4px;
         border: 1px solid #D5D5D5;
@@ -65,14 +68,13 @@ Custom property | Description | Default
         display: -webkit-flex;
         display: -ms-flexbox;
         display: flex;
-        min-width: -webkit-max-content;
         -webkit-box-pack: center;
         -webkit-justify-content: center;
-            -ms-flex-pack: center;
-                justify-content: center;
+        -ms-flex-pack: center;
+        justify-content: center;
         -webkit-align-self: center;
-            -ms-flex-item-align: center;
-                align-self: center;
+        -ms-flex-item-align: center;
+        align-self: center;
         @apply(--clipboard-input-button);
       }
       button:hover {
@@ -86,6 +88,9 @@ Custom property | Description | Default
       button:hover, input:hover {
         cursor: pointer;
       }
+      button[hidden] {
+        display: none;
+      }
       .wrap {
         position: relative;
         display: -webkit-box;
@@ -98,8 +103,8 @@ Custom property | Description | Default
       }
     </style>
     <div class='wrap'>
-      <input id='input' on-tap='select' value='[[value]]' readonly></input>
-      <button id='button' on-tap='_copy' on-mouseleave='_resetCopy' title$='[[titleText]]'>
+      <input id='input' on-tap='select' value='[[value]]' readonly button-hidden$="[[_isSafari()]]"></input>
+      <button id='button' on-tap='_copy' on-mouseleave='_resetCopy' title$='[[titleText]]' hidden$="[[_isSafari()]]">
         <template is='dom-if' if="[[copyText]]">
           <span hidden$='[[_copied]]'>[[copyText]]</span>
         </template>
@@ -187,6 +192,14 @@ Custom property | Description | Default
             value: this.value
           });
         }
+      },
+      /**
+       * Checks if the browser is Safari.
+       * @returns {boolean}
+       */
+      _isSafari: function() {
+        return !!~navigator.userAgent.indexOf('Safari') &&
+               !!~navigator.vendor.indexOf('Apple');
       },
       /**
        * Selects the text inside of the input
