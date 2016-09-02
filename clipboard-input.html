@@ -65,13 +65,14 @@ Custom property | Description | Default
         display: -webkit-flex;
         display: -ms-flexbox;
         display: flex;
+        min-width: -webkit-max-content;
         -webkit-box-pack: center;
         -webkit-justify-content: center;
-            -ms-flex-pack: center;
-                justify-content: center;
+        -ms-flex-pack: center;
+        justify-content: center;
         -webkit-align-self: center;
-            -ms-flex-item-align: center;
-                align-self: center;
+        -ms-flex-item-align: center;
+        align-self: center;
         @apply(--clipboard-input-button);
       }
       button:hover {
